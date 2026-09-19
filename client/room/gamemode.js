@@ -21,19 +21,25 @@ Damage.GetContext().DamageOut.Value = false;
 
 // параметры игры
 Properties.GetContext().GameModeName.Value = "GameModes/EDITOR";
-// создаем команды
-var red = GameMode.Parameters.GetBool("RedTeam");
+
+// создаём только синюю команду (красную убрали)
 var blue = GameMode.Parameters.GetBool("BlueTeam");
-if (red || !red && !blue) teams.create_team_red();
-if (blue || !red && !blue) teams.create_team_blue();
+if (blue) {
+    teams.create_team_blue();
+}
 
 // разрешаем вход в команды по запросу
-Teams.OnRequestJoinTeam.add_Event(function (player, team) { team.Add(player); });
-// спавн по входу в команду
-Teams.OnPlayerChangeTeam.add_Event(function (player) { player.Spawns.Spawn(); });
+Teams.OnRequestJoinTeam.add_Event(function (player, team) { 
+    team.Add(player); 
+});
 
-// задаем подсказку
-Ui.getContext().Hint.Value = "Hint/BuildBase";
+// спавн по входу в команду
+Teams.OnPlayerChangeTeam.add_Event(function (player) { 
+    player.Spawns.Spawn(); 
+});
+
+// задаём подсказку
+Ui.GetContext().Hint.Value = "Hint/BuildBase";
 
 // конфигурация инвентаря
 peace.set_editor_inventory();
